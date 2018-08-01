@@ -1,0 +1,25 @@
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular.js"></script>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<body ng-app>
+    <h1>{{ question.question_text }}</h1>
+
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+    <form action="{% url 'polls:vote' question.id %}" method="post">
+    {% csrf_token %}
+    {% for choice in question.choice_set.all %}
+        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
+        <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br />
+    {% endfor %}
+    <input type="submit" value="Vote" />
+    </form>
+
+    <script>
+      $(document).ready(function() {
+        $("input").keypress(function() {
+          $("#name").text($(this).val());
+        });
+      });
+    </script>
+    <p>Well this should look {{ 400 }}</p>
+</body>
